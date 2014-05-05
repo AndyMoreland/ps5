@@ -14,7 +14,14 @@ public class SplayTree implements BST {
      * @param keys weights on the elements.
      */
     public SplayTree(double[] keys) {
-        // TODO: Implement this!
+        if (keys.length == 0) { return; }
+        TreeNode root = new TreeNode(null, 0, keys[0]);
+        TreeNode current = root;
+        for (int i = 1; i < keys.length; i++) {
+            TreeNode newNode = new TreeNode(current, i, keys[i]);
+            current.setRight(newNode);
+            current = newNode;
+        }
     }
 
 
