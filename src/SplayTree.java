@@ -60,6 +60,10 @@ public class SplayTree implements BST {
         return true;
     }
 
+    /**
+     * At the termination of this method, node should be the root of the tree.
+     * @param node
+     */
     private void splayToRoot(TreeNode node) {
         while (root != node) {
             node.splay();
@@ -100,7 +104,6 @@ public class SplayTree implements BST {
                     || (grandParent.getLeft() == parent && parent.getRight() == this)) {
                 // zig-zag
                 this.rotate(parent);
-                // The above line makes the original grandfather the parent.
                 this.rotate(grandParent);
             } else {
                 // zig-zig
@@ -150,9 +153,7 @@ public class SplayTree implements BST {
         }
 
         public TreeNode getGrandParent() {
-            if (parent == null) {
-                return null;
-            }
+            if (parent == null) return null;
 
             return parent.getParent();
         }
