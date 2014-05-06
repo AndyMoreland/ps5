@@ -86,7 +86,8 @@ public class TestingHarness {
      */
     private static void fireRandomCharges(BST tree, AliasMethodRandomGenerator keyGen) {
         for (int i = 0; i < NUM_PROBES; i++) {
-            assert tree.contains(keyGen.next()) : "Value was missing during random probing.";
+            int value = keyGen.next();
+            assert tree.contains(value) : "Value (" + value + ") was missing during random probing. \n " + tree.toString();
         }
     }
 
