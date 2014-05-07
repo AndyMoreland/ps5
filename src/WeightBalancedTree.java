@@ -14,6 +14,7 @@ public class WeightBalancedTree implements BST {
         }
 
         root = new TreeNode(elements, 0, elements.length, sum);
+        assert(root.isValidBinaryTree());
     }
 
     /**
@@ -45,6 +46,21 @@ public class WeightBalancedTree implements BST {
         private TreeNode leftTree;
         private TreeNode rightTree;
 
+        public int computeDepth() {
+            int depth = 1;
+
+            if (leftTree != null) {
+                depth += leftTree.computeDepth();
+            }
+
+            if (rightTree != null) {
+                int rightTreeDepth = rightTree.computeDepth();
+                depth = Math.max(depth, 1 + rightTreeDepth);
+            }
+
+            return depth;
+        }
+
         /**
          * Constructs a new tree from the specified array of weights. The array entry
          * at position 0 specifies the weight of 0, the entry at position 1 specifies
@@ -69,6 +85,8 @@ public class WeightBalancedTree implements BST {
             /* Clamp the split pointer to the bounds of the array -- in some cases it may wander too far right. */
             left = Math.min(Math.max(start, left), end - 1);
 
+            System.out.println("Splitting at: (" + left + "/" + elements.length + ")");
+
             this.key = left;
 
         /* Doin' some arm's length recursion here. */
@@ -83,6 +101,24 @@ public class WeightBalancedTree implements BST {
         private double newDifference(double[] elements, double leftSum, double rightSum, int left) {
             return Math.abs((leftSum + elements[left]) - (rightSum - elements[left]));
         }
+
+        public boolean isValidBinaryTree() {
+            boolean valid = true;
+
+            if (leftTree != null) {
+                if (getKey() < leftTree.getKey()) valid = false;
+
+                valid = valid && leftTree.isValidBinaryTree();
+            }
+
+            if (rightTree != null) {
+                if (getKey() > rightTree.getKey()) valid = false;
+                valid = valid && rightTree.isValidBinaryTree();
+            }
+
+            return valid;
+        }
+
 
 
         public int getKey() {
